@@ -34,7 +34,7 @@ class IWillTravelAgain:
 
     async def get_category(self, row_id, row_url):
         r = await request('POST', row_url, headers=HEADERS, data=DATA)
-        json_response = json.load(r.text)
+        json_response = json.loads(r.text)
 
         task = [self.base.save_row(
             {
@@ -47,6 +47,8 @@ class IWillTravelAgain:
         )
             for data in json_response
         ]
+
+        await asyncio.wait(task)
 
     async def get_activity_web_site(self, activiti_id, url):
         r = await request('GET', 'example.com')
